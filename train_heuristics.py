@@ -69,6 +69,8 @@ class HeuristicSolutions:
                     arr_temp["total_completion_time"] += info["scheduled_qtask"].waiting_time + info["scheduled_qtask"].execution_time
                     arr_temp["rescheduling_count"] += info["scheduled_qtask"].rescheduling_count
 
+            self.env.qsp_env.run()
+
             # Final results of the episode
             self.results.append(arr_temp)
 
@@ -154,8 +156,8 @@ if __name__ == "__main__":
 
     # Run the heuristic solutions
     heuristics = HeuristicSolutions(env, num_episodes=100)
-    heuristics.run("greedy")
-    heuristics.run("random")
+    # heuristics.run("greedy")
+    # heuristics.run("random")
     heuristics.run("round_robin")
 
     # Plot the results
