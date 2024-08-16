@@ -1,5 +1,5 @@
 class Log:
-    log = True
+    log = False
 
     @staticmethod
     def format_time(env_now):
