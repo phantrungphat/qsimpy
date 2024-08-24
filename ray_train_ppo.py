@@ -47,7 +47,7 @@ if __name__ == "__main__":
             },
         )
         .env_runners(num_env_runners=4)
-        .training(
+        .training( # you can use tune.grid_search to search for the best parameters
             gamma=0.99,
             lambda_=0.95,
             lr=0.1,

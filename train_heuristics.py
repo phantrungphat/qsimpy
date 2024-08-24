@@ -1,9 +1,7 @@
 from env_creator import qsimpy_env_creator
 import os
 import csv
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
+from qsimpy.utils.Visualization import Visualization
 
 class HeuristicSolutions:
     def __init__(self, env, num_episodes=100):
@@ -116,33 +114,6 @@ class HeuristicSolutions:
                 writer.writerow([i, self.results[i]['total_completion_time'], self.results[i]['rescheduling_count']])
         print("CSV file saved to " + file_name)
 
-    def _plot_results(self, paths) -> None:
-        """
-        Plot the results of the episodes.
-        """
-        for path in paths:
-            df1 = pd.read_csv(path['path'])
-
-            plt.plot(df1['Episode'], df1['Total Completion Time'], ".-", color=path['color'], label=path['label'])
-
-            self._sumerize_results(df1, path['label'])
-        
-        plt.ylabel('Total Completion Time')
-        plt.xlabel('Evaluation Episode')
-        plt.legend(loc=2)
-        plt.gca().xaxis.set_major_locator(mticker.MultipleLocator(10))
-        plt.show()
-
-    def _sumerize_results(self, values, label) -> None:
-        """
-        Summarize the results of the episodes.
-        """
-        print("Results Summary for" + label + "solution:")
-        print(f"Number of Episodes: {self.num_episodes}")
-        print(f"Total Waiting Time: {sum(values['Total Completion Time'])}")
-        print(f"Average Rescheduling Count: {sum(values['Rescheduling Count']) / self.num_episodes}")
-
-
 if __name__ == "__main__":
 
     # Create the QSimPy environment
@@ -152,13 +123,13 @@ if __name__ == "__main__":
                 "dataset": "qdataset/qsimpyds_1000_sub_26.csv",
             }
 
-    env = qsimpy_env_creator(env_config)
+    # env = qsimpy_env_creator(env_config)
 
     # Run the heuristic solutions
-    heuristics = HeuristicSolutions(env, num_episodes=100)
+    # heuristics = HeuristicSolutions(env, num_episodes=100)
     # heuristics.run("greedy")
     # heuristics.run("random")
-    heuristics.run("round_robin")
+    # heuristics.run("round_robin")
 
     # Plot the results
     paths = [
@@ -178,4 +149,4 @@ if __name__ == "__main__":
             "color": "black"
         },
     ]
-    heuristics._plot_results(paths)
+    Visualization.plot_results(paths, num_episodes=100)
